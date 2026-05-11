@@ -4,6 +4,8 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     [Header("Canvas")]
+    [SerializeField] private CanvasScaler canvasScaler;
+
     [SerializeField] private CanvasGroup gameCanvasGroup;
     [SerializeField] private CanvasGroup creditsCanvasGroup;
 
@@ -21,6 +23,15 @@ public class UIManager : MonoBehaviour
         AddButtonsListeners();
         SetStateCanvasGroup(gameCanvasGroup, true);
         SetStateCanvasGroup(creditsCanvasGroup, false);
+
+#if UNITY_WEBGL
+    canvasScaler.referenceResolution = new Vector2(1920, 1080);
+    Screen.orientation = ScreenOrientation.LandscapeLeft;
+#elif UNITY_ANDROID
+    canvasScaler.referenceResolution = new Vector2(1080, 1920);
+    Screen.orientation = ScreenOrientation.AutoRotation;
+#endif
+
     }
 
     private void AddButtonsListeners()

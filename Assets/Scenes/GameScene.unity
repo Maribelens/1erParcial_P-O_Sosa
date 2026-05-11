@@ -579,6 +579,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 395f34ca0c9ed484b9eefccca3de9b71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIManager
+  canvasScaler: {fileID: 1420346654}
   gameCanvasGroup: {fileID: 477396910}
   creditsCanvasGroup: {fileID: 1814869893}
   creditsButton: {fileID: 2146835782}
@@ -1955,7 +1956,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1814869890
 RectTransform:
   m_ObjectHideFlags: 0
