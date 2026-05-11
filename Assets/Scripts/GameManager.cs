@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+
     [Header("UI References")]
     [SerializeField] private TextMeshProUGUI timerText;
     [SerializeField] private TextMeshProUGUI clickerCountText;
@@ -18,6 +19,9 @@ public class GameManager : MonoBehaviour
     private int _highScore;
     private float _timeRemaining;
     private bool _gameRunning;
+
+    [Header("Ads")]
+    [SerializeField] private AdsManager adsManager;
 
     private void Awake()
     {
@@ -68,6 +72,8 @@ public class GameManager : MonoBehaviour
         instructionText.gameObject.SetActive(true);
         instructionText.text = "¡Juego terminado!";
 
+        bool isNewRecord = _clickCount > _highScore;
+
         if (_clickCount > _highScore)
         {
             _highScore = _clickCount;
@@ -77,6 +83,11 @@ public class GameManager : MonoBehaviour
 
         highScoreText.text = $"High Score: {_highScore}";
         timerText.text = "Tiempo: 0";
+
+#if UNITY_ANDROID
+        if (!isNewRecord)
+            adsManager.ShowInterstitial();
+#endif
     }
 
     private void ResetUI()
@@ -85,6 +96,17 @@ public class GameManager : MonoBehaviour
         clickerCountText.text = "00 Clicks";
         highScoreText.text = $"High Score: {_highScore}";
         instructionText.text = "Toca el boton para empezar";
+    }
+
+    public void OnRewardButtonPressed()
+    {
+#if UNITY_ANDROID
+        adsManager.ShowRewarded(() =>
+        {
+            gameDuration += 2f;
+            Debug.Log($"Reward otorgado. Próxima duración: {gameDuration}s");
+        });
+#endif
     }
 
     private void OnDestroy()
